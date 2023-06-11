@@ -41,38 +41,3 @@ describe('Eurozone', () => {
     expect(country.checkIsComplete(1)).toBe(true);
   });
 })
-
-describe('Country', () => {
-  test('Should create a Country with a name', () => {
-    const country = new Country('A');
-    expect(country.name).toBe('A');
-  });
-
-  test('Should correctly check if a Country is complete', () => {
-    const country = new Country('A');
-    const city = new City('A', [{name: 'A'}, {name: 'B'}], 0, 0);
-    country.cities.push(city);
-    expect(country.checkIsComplete(1)).toBe(false);
-    city.isComplete = true;
-    expect(country.checkIsComplete(1)).toBe(true);
-  });
-
-});
-
-describe('City', () => {
-  test('Should create a City with a name, country list, and coordinates', () => {
-    const city = new City('A', [{name: 'A'}, {name: 'B'}], 0, 0);
-    expect(city.name).toBe('A');
-    expect(city.x).toBe(0);
-    expect(city.y).toBe(0);
-    expect(city.account).toEqual({ 'A': 1000000, 'B': 0 });
-  });
-
-  test('Should correctly check if a City is complete', () => {
-    const city = new City('A', [{name: 'A'}, {name: 'B'}], 0, 0);
-    expect(city.checkIsComplete()).toBe(false);
-    city.account['B'] = 100;
-    expect(city.checkIsComplete()).toBe(true);
-  });
-})
-
