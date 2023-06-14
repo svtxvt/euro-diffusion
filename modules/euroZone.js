@@ -16,6 +16,35 @@ class Eurozone {
   }
 
   /**
+   * Checks if all the cities in the Eurozone are connected.
+   * A Eurozone is connected if there is a path from every city to every other city.
+   *
+   * The method uses a depth-first search algorithm starting from the first city.
+   * If all the cities have been visited after the search, the cities are connected.
+   *
+   * @returns {boolean} - Whether all the cities are connected.
+   */
+  isConnected() {
+    if (this.cities.length === 0) {
+      return false;
+    }
+    let visited = new Set();
+    let toVisit = [this.cities[0]];
+
+    while (toVisit.length > 0) {
+      let current = toVisit.pop();
+      visited.add(current);
+      for (let neighbor of current.neighbors) {
+        if (!visited.has(neighbor)) {
+          toVisit.push(neighbor);
+        }
+      }
+    }
+
+    return visited.size === this.cities.length;
+  }
+
+  /**
    * Calculates the daily diffusion of coins.
    * @returns {Object} - The daily diffuse.
    */
@@ -136,6 +165,10 @@ class Eurozone {
    * @returns {Country[]} - The countries in the Eurozone.
    */
   processLifeCycle() {
+    if (!this.isConnected()) {
+      console.log('Eurozone is not fully connected, skipping simulation...');
+      return;
+    }
     if (this.countries.length < 2) {
       const country = this.countries[0];
       country.isComplete = true;
